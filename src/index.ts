@@ -14,8 +14,15 @@ async function create(repository: ICreateRepository): Promise<void> {
     console.log(await repository.create(obj))
 }
 
+console.log()
+console.log('------------------NO DECORATED----------------------')
 create(createRepository)
-    .then(() => {
-        create(new TransactionDecorator(createRepository)).catch(console.error)
+    .then(async () => {
+        console.log()
+        console.log('---------------------DECORATED----------------------')
+        await create(new TransactionDecorator(createRepository)).catch(
+            console.error
+        )
+        console.log()
     })
     .catch(console.error)
