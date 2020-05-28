@@ -4,10 +4,11 @@ import { CreateRepository } from './implementations/CreateRepository'
 import { TransactionDecorator } from './implementations/decorators/TransactionDecorator'
 import { CreateObject } from './interfaces/CreateObject'
 import { ICreateRepository } from './interfaces/ICreateRepository'
+import { TruncateDecorator } from './implementations/decorators/TruncateDecorator'
 
 const createRepository = new CreateRepository()
 const obj: CreateObject = {
-    username: 'Pepe'
+    username: 'Pepe',
 }
 
 async function create(repository: ICreateRepository): Promise<void> {
@@ -20,9 +21,9 @@ create(createRepository)
     .then(async () => {
         console.log()
         console.log('---------------------DECORATED----------------------')
-        await create(new TransactionDecorator(createRepository)).catch(
-            console.error
-        )
+        await create(
+            new TransactionDecorator(new TruncateDecorator(createRepository)),
+        ).catch(console.error)
         console.log()
     })
     .catch(console.error)
